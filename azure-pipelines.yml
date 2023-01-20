@@ -31,3 +31,23 @@ steps:
 - script: |
     npm -v
   displayName: 'Get npm version'
+
+- task: Bash@3
+  displayName: 'Install dependencies on CDK project'
+  inputs:
+    targetType: 'inline'
+    script: |
+      # install dependencies
+      
+      npm install
+    workingDirectory: 'infrastructure'
+
+- task: Bash@3
+  displayName: 'Install dependencies on app'
+  inputs:
+    targetType: 'inline'
+    script: |
+      # install dependencies
+      
+      npm install
+    workingDirectory: 'app'
