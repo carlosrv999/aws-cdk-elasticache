@@ -55,6 +55,12 @@ steps:
       npm install
     workingDirectory: 'app'
 
+- task: AWSCLI@1
+  inputs:
+    awsCredentials: 'AWS Sysadmin CANVIA cp-cramirez'
+    regionName: 'us-east-1'
+    awsCommand: 'aws sts get-caller-identity'
+
 - task: Bash@3
   displayName: 'Synthesize CDK app'
   inputs:
