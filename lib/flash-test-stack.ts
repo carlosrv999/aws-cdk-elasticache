@@ -8,8 +8,13 @@ import { ElastiCacheConstruct } from "../src/elasticache/elasticache.construct";
 import { VpcNetwork } from "../src/network/vpc.construct";
 
 export class FlashTestStack extends cdk.Stack {
+  redis_port: number;
+
   constructor(scope: Construct, id: string, props?: cdk.StackProps) {
     super(scope, id, props);
+
+    this.redis_port = Number(process.env.REDIS_PORT);
+    console.log(this.redis_port);
 
     Tags.of(this).add("carlos", "test");
 
@@ -20,6 +25,7 @@ export class FlashTestStack extends cdk.Stack {
     const elasticache = new ElastiCacheConstruct(this, "ElastiCache", {
       vpc: vpcNetwork.vpc,
       elastiCacheName: "carlos",
+      redis_port: this.redis_port,
     });
 
     const images = new SampleAppContainer(this, "ContainerImages");

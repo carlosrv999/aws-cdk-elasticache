@@ -5,6 +5,7 @@ import {
   Compatibility,
   ContainerImage,
   FargateService,
+  LogDrivers,
   Protocol,
   TaskDefinition,
 } from "aws-cdk-lib/aws-ecs";
@@ -44,13 +45,16 @@ export class ContainerConstruct extends Construct {
         ["REDIS_HOST"]: props.elastiCache.elastiCache.attrRedisEndpointAddress,
         ["REDIS_PORT"]: props.elastiCache.elastiCache.attrRedisEndpointPort,
       },
-      /*portMappings: [
+      portMappings: [
         {
           containerPort: 3000,
           protocol: Protocol.TCP,
-          appProtocol: AppProtocol.http,
         },
-      ],*/
+      ],
+      logging: LogDrivers.awsLogs({
+        streamPrefix: "ecs",
+        logRetention: 30,
+      }),
     });
 
     this.service = new FargateService(this, "service", {

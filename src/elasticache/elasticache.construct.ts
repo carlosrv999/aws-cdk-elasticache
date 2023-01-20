@@ -11,15 +11,13 @@ import { Construct } from "constructs";
 export interface IElastiCacheConstruct {
   readonly elastiCacheName: string;
   readonly vpc: Vpc;
+  readonly redis_port: number;
 }
 
 export class ElastiCacheConstruct extends Construct {
   subnetGroup: CfnSubnetGroup;
-  subnetGroupPublic: CfnSubnetGroup;
   redisSecurityGroup: SecurityGroup;
-  redisSecurityGroupPublic: SecurityGroup;
   elastiCache: CfnCacheCluster;
-  elastiCachePublic: CfnCacheCluster;
 
   constructor(scope: Construct, id: string, props: IElastiCacheConstruct) {
     super(scope, id);
@@ -32,33 +30,11 @@ export class ElastiCacheConstruct extends Construct {
       cacheSubnetGroupName: "defaultSubnetGroup",
     });
 
-    this.subnetGroupPublic = new CfnSubnetGroup(
-      this,
-      "defaultSubnetGroupPublic",
-      {
-        subnetIds: props.vpc.selectSubnets({
-          subnetType: SubnetType.PUBLIC,
-        }).subnetIds,
-        description: "test2",
-        cacheSubnetGroupName: "defaultSubnetGroupPublic",
-      }
-    );
-
     this.redisSecurityGroup = new SecurityGroup(this, "redis-secgroup", {
       vpc: props.vpc,
       allowAllOutbound: true,
       description: "Security Group for Redis cluster",
     });
-
-    this.redisSecurityGroupPublic = new SecurityGroup(
-      this,
-      "redis-secgroup-public",
-      {
-        vpc: props.vpc,
-        allowAllOutbound: true,
-        description: "Security Group for Redis cluster public",
-      }
-    );
 
     this.elastiCache = new CfnCacheCluster(this, "rediscache", {
       cacheNodeType: "cache.t2.small",
@@ -66,17 +42,8 @@ export class ElastiCacheConstruct extends Construct {
       numCacheNodes: 1,
       vpcSecurityGroupIds: [this.redisSecurityGroup.securityGroupId],
       engineVersion: "7.0",
+      port: props.redis_port,
       clusterName: props.elastiCacheName,
-      cacheSubnetGroupName: this.subnetGroup.cacheSubnetGroupName,
-    });
-
-    this.elastiCachePublic = new CfnCacheCluster(this, "rediscachepublic", {
-      cacheNodeType: "cache.t2.small",
-      engine: "redis",
-      numCacheNodes: 1,
-      vpcSecurityGroupIds: [this.redisSecurityGroup.securityGroupId],
-      engineVersion: "7.0",
-      clusterName: "rediscachepublic",
       cacheSubnetGroupName: this.subnetGroup.cacheSubnetGroupName,
     });
   }
