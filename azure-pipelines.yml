@@ -6,6 +6,9 @@
 trigger:
 - main
 
+variables:
+- group: 'project-flash-cache'
+
 pool:
   vmImage: ubuntu-latest
 
