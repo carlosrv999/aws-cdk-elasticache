@@ -1,6 +1,5 @@
 import { SubnetType, Vpc } from "aws-cdk-lib/aws-ec2";
 import {
-  AppProtocol,
   Cluster,
   Compatibility,
   ContainerImage,

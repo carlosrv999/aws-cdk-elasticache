@@ -14,9 +14,13 @@ export class FlashTestStack extends cdk.Stack {
     super(scope, id, props);
 
     this.redis_port = Number(process.env.REDIS_PORT);
+    console.log("region 👉", this.node.tryGetContext("region"));
+    console.log("from cdk.json 👉", this.node.tryGetContext("bucket"));
     console.log(this.redis_port);
 
     Tags.of(this).add("carlos", "test");
+
+    /*
 
     const vpcNetwork = new VpcNetwork(this, "Vpc", {
       vpcName: "vpc-test",
@@ -48,6 +52,6 @@ export class FlashTestStack extends cdk.Stack {
         containers.service.connections.securityGroups[0].securityGroupId
       ),
       Port.tcp(6379)
-    );
+    );*/
   }
 }
