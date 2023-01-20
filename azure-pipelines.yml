@@ -17,3 +17,17 @@ steps:
     echo Add other tasks to build, test, and deploy your project.
     echo See https://aka.ms/yaml
   displayName: 'Run a multi-line script'
+
+- task: NodeTool@0
+  inputs:
+    versionSource: 'spec'
+    versionSpec: '16.x'
+    checkLatest: true
+
+- script: |
+    node -v
+  displayName: 'Get node version'
+
+- script: |
+    npm -v
+  displayName: 'Get npm version'
