@@ -59,7 +59,17 @@ steps:
   inputs:
     awsCredentials: 'AWS Sysadmin CANVIA cp-cramirez'
     regionName: 'us-east-1'
-    awsCommand: 'aws sts get-caller-identity'
+    awsCommand: 'sts'
+    awsSubCommand: 'get-caller-identity'
+
+- task: Bash@3
+  displayName: 'testAWS'
+  inputs:
+    targetType: 'inline'
+    script: |
+      # Write your commands here
+      
+      aws sts get-caller-identity
 
 - task: Bash@3
   displayName: 'Synthesize CDK app'
