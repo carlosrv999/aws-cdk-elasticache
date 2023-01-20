@@ -63,8 +63,8 @@ steps:
   inputs:
     Contents: |
       **
-      !.git/**
-      !infrastructure/node_modules
+      !**/.git/**
+      !**/node_modules/**
     TargetFolder: '$(Build.ArtifactStagingDirectory)/awscdk'
 
 - task: PublishBuildArtifacts@1
