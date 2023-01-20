@@ -9,8 +9,8 @@ import { CfnCacheCluster, CfnSubnetGroup } from "aws-cdk-lib/aws-elasticache";
 import { Construct } from "constructs";
 
 export interface IElastiCacheConstruct {
-  elastiCacheName: string;
-  vpc: Vpc;
+  readonly elastiCacheName: string;
+  readonly vpc: Vpc;
 }
 
 export class ElastiCacheConstruct extends Construct {
@@ -58,18 +58,6 @@ export class ElastiCacheConstruct extends Construct {
         allowAllOutbound: true,
         description: "Security Group for Redis cluster public",
       }
-    );
-
-    this.redisSecurityGroup.addIngressRule(
-      Peer.ipv4("10.0.0.0/16"),
-      Port.allTraffic(),
-      "allowVPC"
-    );
-
-    this.redisSecurityGroupPublic.addIngressRule(
-      Peer.ipv4("10.0.0.0/16"),
-      Port.allTraffic(),
-      "allowVPC"
     );
 
     this.elastiCache = new CfnCacheCluster(this, "rediscache", {
