@@ -62,21 +62,15 @@ steps:
     awsCommand: 'sts'
     awsSubCommand: 'get-caller-identity'
 
-- task: Bash@3
-  displayName: 'testAWS'
+- task: AWSShellScript@1
   inputs:
-    targetType: 'inline'
-    script: |
-      # Write your commands here
+    awsCredentials: 'AWS Sysadmin CANVIA cp-cramirez'
+    regionName: 'us-east-1'
+    scriptType: 'inline'
+    inlineScript: |
+      # You can write your script inline here
       
-      cat ~/.aws/credentials
-
-- task: Bash@3
-  displayName: 'Synthesize CDK app'
-  inputs:
-    targetType: 'inline'
-    script: |
-      # Write your commands here
-      
-      npx cdk synth
+      aws sts get-caller-identity
+      npx cdk bootstrap aws://104314781943/us-east-1
+    disableAutoCwd: true
     workingDirectory: 'infrastructure'
