@@ -65,6 +65,7 @@ steps:
       **
       !**/.git/**
       !**/node_modules/**
+      !**/cdk.out/**
     TargetFolder: '$(Build.ArtifactStagingDirectory)/awscdk'
 
 - task: PublishBuildArtifacts@1
