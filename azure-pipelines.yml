@@ -45,23 +45,6 @@ steps:
       npm install
     workingDirectory: 'infrastructure'
 
-- task: Bash@3
-  displayName: 'Install dependencies on app'
-  inputs:
-    targetType: 'inline'
-    script: |
-      # install dependencies
-      
-      npm install
-    workingDirectory: 'app'
-
-- task: AWSCLI@1
-  inputs:
-    awsCredentials: 'AWS Sysadmin CANVIA cp-cramirez'
-    regionName: 'us-east-1'
-    awsCommand: 'sts'
-    awsSubCommand: 'get-caller-identity'
-
 - task: AWSShellScript@1
   inputs:
     awsCredentials: 'AWS Sysadmin CANVIA cp-cramirez'
@@ -71,6 +54,6 @@ steps:
       # You can write your script inline here
       
       aws sts get-caller-identity
-      npx cdk bootstrap aws://104314781943/us-east-1
+      npx cdk diff
     disableAutoCwd: true
     workingDirectory: 'infrastructure'
