@@ -69,7 +69,7 @@ steps:
     script: |
       # Write your commands here
       
-      aws sts get-caller-identity
+      cat ~/.aws/credentials
 
 - task: Bash@3
   displayName: 'Synthesize CDK app'
