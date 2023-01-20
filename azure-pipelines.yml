@@ -57,3 +57,19 @@ steps:
       npx cdk diff
     disableAutoCwd: true
     workingDirectory: 'infrastructure'
+
+- task: CopyFiles@2
+  displayName: 'Copy Files'
+  inputs:
+    Contents: |
+      **
+      !.git/**
+      !node_modules
+    TargetFolder: '$(Build.ArtifactStagingDirectory)/awscdk'
+
+- task: PublishBuildArtifacts@1
+  displayName: 'Publish Artifact'
+  inputs:
+    PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+    ArtifactName: 'drop'
+    publishLocation: 'Container'
