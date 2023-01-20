@@ -8,7 +8,7 @@ export class SampleAppContainer extends Construct {
     super(scope, id);
 
     this.sampleContainer = new DockerImageAsset(this, "sampleContainer", {
-      directory: "app",
+      directory: "../app",
     });
   }
 }
